@@ -14,20 +14,40 @@ def db_add(cur_now,date_now,db_marker): # Объявление функции д
     cursor = base.cursor() # Объявление курсора
     if (db_marker == 1):
         base.execute('CREATE TABLE IF NOT EXISTS USD_VAL(date text, value real)') # Создание таблицы в БД с конкретным именем, если такой еще не существует
-        base.execute("""INSERT INTO USD_VAL (value, date) VALUES ( ?, ?)""", (cur_now[0:5],date_now)) # Добавление ячейки в таблицу с входными данными
-        base.commit() # Сохранение внесенных изменений в БД
+        search_db = cursor.execute('SELECT date FROM USD_VAL').fetchall()  # Запрос всех ячеек из столбца с именем 'date'
+        search_db[-1] = (str(search_db[-1]))
+        count_cell = -3
+        search_db = search_db[-1][2:count_cell]
+        if (search_db != date_now):
+            base.execute("""INSERT INTO USD_VAL (value, date) VALUES ( ?, ?)""", (cur_now[0:5],date_now)) # Добавление ячейки в таблицу с входными данными
+            base.commit() # Сохранение внесенных изменений в БД
     if (db_marker == 2):
         base.execute('CREATE TABLE IF NOT EXISTS EUR_VAL(date text, value real)') # Создание таблицы в БД с конкретным именем, если такой еще не существует
-        base.execute("""INSERT INTO EUR_VAL (value, date) VALUES ( ?, ?)""", (cur_now[0:5],date_now))# Добавление ячейки в таблицу с входными данными
-        base.commit() # Сохранение внесенных изменений в БД
+        search_db = cursor.execute('SELECT date FROM EUR_VAL').fetchall()  # Запрос всех ячеек из столбца с именем 'date'
+        search_db[-1] = (str(search_db[-1]))
+        count_cell = -3
+        search_db = search_db[-1][2:count_cell]
+        if (search_db != date_now):
+            base.execute("""INSERT INTO EUR_VAL (value, date) VALUES ( ?, ?)""", (cur_now[0:5],date_now)) # Добавление ячейки в таблицу с входными данными
+            base.commit() # Сохранение внесенных изменений в БД
     if (db_marker == 3):
         base.execute('CREATE TABLE IF NOT EXISTS CNY_VAL(date text, value real)') # Создание таблицы в БД с конкретным именем, если такой еще не существует
-        base.execute("""INSERT INTO CNY_VAL (value, date) VALUES ( ?, ?)""", (cur_now[0:4],date_now))# Добавление ячейки в таблицу с входными данными
-        base.commit() # Сохранение внесенных изменений в БД
+        search_db = cursor.execute('SELECT date FROM CNY_VAL').fetchall()  # Запрос всех ячеек из столбца с именем 'date'
+        search_db[-1] = (str(search_db[-1]))
+        count_cell = -3
+        search_db = search_db[-1][2:count_cell]
+        if (search_db != date_now):
+            base.execute("""INSERT INTO CNY_VAL (value, date) VALUES ( ?, ?)""", (cur_now[0:5],date_now)) # Добавление ячейки в таблицу с входными данными
+            base.commit() # Сохранение внесенных изменений в БД
     if (db_marker == 4):
         base.execute('CREATE TABLE IF NOT EXISTS TRY_VAL(date text, value real)') # Создание таблицы в БД с конкретным именем, если такой еще не существует
-        base.execute("""INSERT INTO TRY_VAL (value, date) VALUES ( ?, ?)""", (cur_now[0:4],date_now))# Добавление ячейки в таблицу с входными данными
-        base.commit() # Сохранение внесенных изменений в БД
+        search_db = cursor.execute('SELECT date FROM TRY_VAL').fetchall()  # Запрос всех ячеек из столбца с именем 'date'
+        search_db[-1] = (str(search_db[-1]))
+        count_cell = -3
+        search_db = search_db[-1][2:count_cell]
+        if (search_db != date_now):
+            base.execute("""INSERT INTO TRY_VAL (value, date) VALUES ( ?, ?)""", (cur_now[0:5],date_now)) # Добавление ячейки в таблицу с входными данными
+            base.commit() # Сохранение внесенных изменений в БД
 
 def db_last(db_marker): # Объявление функции для запроса даты из последней ячейки таблицы с определенной валютой
     base = sqlite3.connect('CUR_1.db') # Установка соединения с БД
@@ -129,5 +149,5 @@ def db_graph(db_marker): # Объявление функции для постр
     plt.clf() # Удаление графика
 
 if __name__ == '__main__':
-    db_graph()
+    db_add(65.34, '6 декабря 2022',1)
     # курс, дата, маркер
